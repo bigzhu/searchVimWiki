@@ -11,19 +11,18 @@ vimwiki什么都好,就是缺少对 wiki 词的快速查找.
 search_vimwiki.py 放在`/home/bigzhu/Dropbox/python/`
 
 那么.bash_profile加入
-``
+`
 export PATH=/home/bigzhu/Dropbox/python/:$PATH
-``
+`
 #.vimrc修改
 加入
-``
-"search
-autocmd FileType wiki map <f4> :SearchWiki 
 
-"找 wiki 词 
-function! SearchWiki(Name)
-    execute "!search_vimwiki.py '".a:Name."'"
-    execute "VimwikiGoto search"
-endfunction
-autocmd FileType wiki command! -buffer -nargs=1 SearchWiki call SearchWiki("<args>")
-``
+    "search
+    autocmd FileType wiki map <f4> :SearchWiki 
+    
+    "找 wiki 词 
+    function! SearchWiki(Name)
+        execute "!search_vimwiki.py '".a:Name."'"
+        execute "VimwikiGoto search"
+    endfunction
+    autocmd FileType wiki command! -buffer -nargs=1 SearchWiki call SearchWiki("<args>")
