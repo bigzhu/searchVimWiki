@@ -102,13 +102,18 @@ class SearchWiki:
             #print >>f, '==[[%s|%s年的文章]]==' % (int(year) - 4, int(year) - 4)
             #print >>f, '==[[%s|%s年的文章]]==' % (int(year) - 5, int(year) - 5)
         f.close()
-
+    def getSuffix(self):
+        '''得到文件的后缀'''
+        first_file_name=self.mergered_all_sorted[0][1][0][0]
+        suffix = first_file_name.rsplit('.', -1)[1]
+        return suffix
     def writeResult(self):
         if(self.wiki_name == '*'):
             for i in self.mergered_all:
                 self.createIndex(i, self.mergered_all[i])
-
-        f = open('search.wiki', 'w')
+        suffix = self.getSuffix()
+        f = open('search.' + suffix, 'w')
+        self.getSuffix()
         print >>f, '%nohtml'
         for i in self.mergered_all_sorted:
             self.writeContent(f, i[0], i[1])
@@ -136,6 +141,7 @@ class SearchFile:
     def sortByTime(self):
         '''按时间排序'''
         self.files_time = sorted(self.files_time.items(), key=lambda by: by[1], reverse=True)
+
 
     def writeResult(self):
         f = open('search.wiki', 'aw')
