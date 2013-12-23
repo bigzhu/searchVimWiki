@@ -25,7 +25,7 @@ class SearchWiki:
         for wiki in os.listdir(path):
             if(fnmatch.fnmatchcase(wiki.upper(), ('*%s*' % self.wiki_name).upper())):
                 if path != '.':  # 查找子路径,那么 wiki前面要加上路径
-                    wiki = path+'/' + wiki
+                    wiki = path + '/' + wiki
                 modify_time = time.localtime(os.path.getmtime(wiki))
                 m = pattern.search(wiki)
                 if m is None:  # 隐藏的文件不要参与查找
@@ -156,17 +156,17 @@ def main():
         name = args[1]
         seartch_wiki = SearchWiki(name)
         seartch_wiki.search()
-        seartch_wiki.search('p')
+        #seartch_wiki.search('p')
         seartch_wiki.mergerByYear()
         seartch_wiki.sortByTime()
         seartch_wiki.sortByYear()
         seartch_wiki.writeResult()
 
-        search_file = SearchFile(name)
-        if(search_file.pathExist()):
-            search_file.search()
-            search_file.sortByTime()
-            search_file.writeResult()
+        #search_file = SearchFile(name)
+        #if(search_file.pathExist()):
+        #    search_file.search()
+        #    search_file.sortByTime()
+        #    search_file.writeResult()
 
 if __name__ == '__main__':
     main()
