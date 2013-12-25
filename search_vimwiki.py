@@ -54,7 +54,7 @@ class SearchWiki:
 
     def writeContent(self, f, year, wikis_time_sorted):
         if(len(wikis_time_sorted) > 0):
-            print >>f, '----------------%s-----------------' % year
+            print >>f, '%s' % year
         for wiki_info in wikis_time_sorted:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
@@ -66,7 +66,7 @@ class SearchWiki:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
 
-            if(name != 'index' and name != 'search' and name != 'todo-list' and (name[0]!='p' and name[1] !='/') #以 p/ 打头的不能显示到 index
+            if(name != 'index' and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 index
                and self.mergered_all.get(name) is None):
                 print >>f, '|[[' + name + ']]|'
 
@@ -102,11 +102,16 @@ class SearchWiki:
             #print >>f, '==[[%s|%s年的文章]]==' % (int(year) - 4, int(year) - 4)
             #print >>f, '==[[%s|%s年的文章]]==' % (int(year) - 5, int(year) - 5)
         f.close()
+
     def getSuffix(self):
         '''得到文件的后缀'''
-        first_file_name=self.mergered_all_sorted[0][1][0][0]
-        suffix = first_file_name.rsplit('.', -1)[1]
-        return suffix
+        if self.mergered_all_sorted:
+            first_file_name = self.mergered_all_sorted[0][1][0][0]
+            suffix = first_file_name.rsplit('.', -1)[1]
+            return suffix
+        else:
+            return 'wiki'
+
     def writeResult(self):
         if(self.wiki_name == '*'):
             for i in self.mergered_all:
@@ -141,7 +146,6 @@ class SearchFile:
     def sortByTime(self):
         '''按时间排序'''
         self.files_time = sorted(self.files_time.items(), key=lambda by: by[1], reverse=True)
-
 
     def writeResult(self):
         f = open('search.wiki', 'aw')
