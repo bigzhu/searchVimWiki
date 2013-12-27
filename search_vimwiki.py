@@ -9,6 +9,8 @@ import os
 import time
 import re
 
+WIKI_INDEX = 'wiki_index'
+
 
 class SearchWiki:
     def __init__(self, wiki_name):
@@ -23,6 +25,9 @@ class SearchWiki:
 
         pattern = re.compile(r'^\.')
         for wiki in os.listdir(path):
+            # 如果是路径，就不要加入
+            if os.path.isdir(wiki):
+                continue
             if(fnmatch.fnmatchcase(wiki.upper(), ('*%s*' % self.wiki_name).upper())):
                 if path != '.':  # 查找子路径,那么 wiki前面要加上路径
                     wiki = path + '/' + wiki
@@ -58,7 +63,7 @@ class SearchWiki:
         for wiki_info in wikis_time_sorted:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
-            if(name != 'wiki' and name != 'search'):
+            if(name != WIKI_INDEX and name != 'search'):
                 print >>f, '[[' + name + ']]'
 
     def writeContentIndex(self, f, wikis_info_sorted):
@@ -66,7 +71,7 @@ class SearchWiki:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
 
-            if(name != 'wiki' and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki
+            if(name != WIKI_INDEX and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki_index
                and self.mergered_all.get(name) is None):
                 print >>f, '|[[' + name + ']]|'
 
@@ -75,7 +80,7 @@ class SearchWiki:
 
         now_time = time.localtime()
         if(year == str(now_time.tm_year)):
-            wiki_name = 'wiki'
+            wiki_name = WIKI_INDEX
         f = open('%s.wiki' % wiki_name, 'w')
         print >>f, '%nohtml'
         print >>f, '%title bigzhu的坑'
@@ -86,7 +91,7 @@ class SearchWiki:
         - 有条目没內容的,给我留言,让我生成 html 就可以.
         ''' % year
 
-        if wiki_name != 'wiki':
+        if wiki_name != WIKI_INDEX:
             print >>f, '==[[%s|%s年的文章]]==' % (int(year) + 1, int(year) + 1)
             print >>f, ''
             self.writeContentIndex(f, wikis_times_sorted)
@@ -105,7 +110,6 @@ class SearchWiki:
 
     def getSuffix(self):
         '''得到文件的后缀'''
-        print self.mergered_all_sorted
         if self.mergered_all_sorted:
             first_file_name = self.mergered_all_sorted[0][1][0][0]
             suffix = first_file_name.rsplit('.', -1)[1]
