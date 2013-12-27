@@ -58,7 +58,7 @@ class SearchWiki:
         for wiki_info in wikis_time_sorted:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
-            if(name != 'index' and name != 'search'):
+            if(name != 'wiki' and name != 'search'):
                 print >>f, '[[' + name + ']]'
 
     def writeContentIndex(self, f, wikis_info_sorted):
@@ -66,16 +66,16 @@ class SearchWiki:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
 
-            if(name != 'index' and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 index
+            if(name != 'wiki' and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki
                and self.mergered_all.get(name) is None):
                 print >>f, '|[[' + name + ']]|'
 
-    def createIndex(self, year, wikis_times_sorted):
+    def createWiki(self, year, wikis_times_sorted):
         wiki_name = year
 
         now_time = time.localtime()
         if(year == str(now_time.tm_year)):
-            wiki_name = 'index'
+            wiki_name = 'wiki'
         f = open('%s.wiki' % wiki_name, 'w')
         print >>f, '%nohtml'
         print >>f, '%title bigzhu的坑'
@@ -86,7 +86,7 @@ class SearchWiki:
         - 有条目没內容的,给我留言,让我生成 html 就可以.
         ''' % year
 
-        if wiki_name != 'index':
+        if wiki_name != 'wiki':
             print >>f, '==[[%s|%s年的文章]]==' % (int(year) + 1, int(year) + 1)
             print >>f, ''
             self.writeContentIndex(f, wikis_times_sorted)
@@ -105,6 +105,7 @@ class SearchWiki:
 
     def getSuffix(self):
         '''得到文件的后缀'''
+        print self.mergered_all_sorted
         if self.mergered_all_sorted:
             first_file_name = self.mergered_all_sorted[0][1][0][0]
             suffix = first_file_name.rsplit('.', -1)[1]
@@ -115,7 +116,7 @@ class SearchWiki:
     def writeResult(self):
         if(self.wiki_name == '*'):
             for i in self.mergered_all:
-                self.createIndex(i, self.mergered_all[i])
+                self.createWiki(i, self.mergered_all[i])
         suffix = self.getSuffix()
         f = open('search.' + suffix, 'w')
         self.getSuffix()
