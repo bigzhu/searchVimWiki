@@ -82,13 +82,13 @@ class SearchWiki:
         if(year == str(now_time.tm_year)):
             wiki_name = WIKI_INDEX
         f = open('%s.wiki' % wiki_name, 'w')
-        print >>f, '%nohtml'
-        print >>f, '%title bigzhu的坑'
+        #print >>f, '%nohtml'
+        print >>f, "%title bigzhu's wiki"
         print >>f, ''
         print >>f, '''
-        - 本页是[[bigzhu]]%s年的知识库+blog,用[[vimwiki]]生成,极尽简洁.条目会反复修改,最新的会被顶到最上面来.
-        - 分享的目的在[[走向]]里写了,如果有文章帮到你了,给我留个言鼓励下.
-        - 有条目没內容的,给我留言,让我生成 html 就可以.
+        - 这是[[bigzhu]]%s年的wiki,[[vimwiki]]生成,是一些随手记下的零碎知识点,不适合浏览的.
+        - 有条目没內容的(折騰的后果),给我[[mailto:vermiliondun@gmail.com|vermiliondun@gmail.com]]留言,我来生成html
+        - 如果你是程序员,我在昆明且招人中......你懂的
         ''' % year
 
         if wiki_name != WIKI_INDEX:
