@@ -73,7 +73,7 @@ class SearchWiki:
 
             if(name != WIKI_INDEX and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki_index
                and self.mergered_all.get(name) is None):
-                print >>f, '|[[' + name + ']]|'
+                print >>f, '=== [[' + name + ']] ==='
 
     def createWiki(self, year, wikis_times_sorted):
         wiki_name = year
