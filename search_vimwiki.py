@@ -108,22 +108,11 @@ class SearchWiki:
             #print >>f, '==[[%s|%s年的文章]]==' % (int(year) - 5, int(year) - 5)
         f.close()
 
-    def getSuffix(self):
-        '''得到文件的后缀'''
-        if self.mergered_all_sorted:
-            first_file_name = self.mergered_all_sorted[0][1][0][0]
-            suffix = first_file_name.rsplit('.', -1)[1]
-            return suffix
-        else:
-            return 'wiki'
-
     def writeResult(self):
         if(self.wiki_name == '*'):
             for i in self.mergered_all:
                 self.createWiki(i, self.mergered_all[i])
-        suffix = self.getSuffix()
-        f = open('search.' + suffix, 'w')
-        self.getSuffix()
+        f = open('search.wiki', 'w')
         print >>f, '%nohtml'
         for i in self.mergered_all_sorted:
             self.writeContent(f, i[0], i[1])
