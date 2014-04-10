@@ -8,12 +8,7 @@ vimwiki什么都好,就是缺少对 wiki 词的快速查找.
 因为懒,直接用python来实现,测试和调试都好弄.
 #安装
 ## 程序
-search_vimwiki.py 放在`/home/bigzhu/Dropbox/python/`
-
-那么.bash_profile加入
-`
-export PATH=/home/bigzhu/Dropbox/python/:$PATH
-`
+不用这么麻烦,运行 install.sh
 #.vimrc修改
 加入
 
