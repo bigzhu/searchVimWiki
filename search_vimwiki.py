@@ -57,13 +57,16 @@ class SearchWiki:
     def sortByYear(self):
         self.mergered_all_sorted = sorted(self.mergered_all.items(), key=lambda by: by[0], reverse=True)
 
-    def writeContent(self, f, year, wikis_time_sorted):
+    def writeContent(self, f, year, wikis_time_sorted, name_not_in=[]):
+        '''
+        modify by bigzhu at 15/04/12 17:01:21 增加name_not_in,为了避免年显示在 search 结果里面
+        '''
         if(len(wikis_time_sorted) > 0):
             print >>f, '%s' % year
         for wiki_info in wikis_time_sorted:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
-            if(name != WIKI_INDEX and name != 'search'):
+            if(name != WIKI_INDEX and name != 'search' and name not in name_not_in):
                 print >>f, '[[' + name + ']]'
 
     def writeContentIndex(self, f, wikis_info_sorted):
@@ -73,16 +76,19 @@ class SearchWiki:
 
             if(name != WIKI_INDEX and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki_index
                and self.mergered_all.get(name) is None):
-                print >>f, '=== [[' + name + ']] ==='
+                print >>f, '| [[' + name + ']] |'
 
     def createWiki(self, year, wikis_times_sorted):
+        '''
+        按年重新生成 index
+        '''
         wiki_name = year
 
         now_time = time.localtime()
         if(year == str(now_time.tm_year)):
             wiki_name = WIKI_INDEX
         f = open('%s.wiki' % wiki_name, 'w')
-        #print >>f, '%nohtml'
+        print >>f, '%nohtml'
         print >>f, "%title bigzhu's wiki"
         print >>f, ''
         print >>f, '''
@@ -109,13 +115,18 @@ class SearchWiki:
         f.close()
 
     def writeResult(self):
+        '''
+        modify by bigzhu at 15/04/12 16:55:57 重新生成的年的 index 不要加到 search.wiki 里面
+        '''
+        years = []
         if(self.wiki_name == '*'):
             for i in self.mergered_all:
                 self.createWiki(i, self.mergered_all[i])
+                years.append(i)
         f = open('search.wiki', 'w')
         print >>f, '%nohtml'
         for i in self.mergered_all_sorted:
-            self.writeContent(f, i[0], i[1])
+            self.writeContent(f, i[0], i[1], name_not_in=years)
         print >>f, '[[%s]]' % self.wiki_name
         f.close()
 
