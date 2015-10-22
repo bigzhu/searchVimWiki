@@ -34,7 +34,7 @@ class SearchWiki:
                 modify_time = time.localtime(os.path.getmtime(wiki))
                 m = pattern.search(wiki)
                 if m is None:  # 隐藏的文件不要参与查找
-                        self.wikis_time[wiki] = modify_time
+                    self.wikis_time[wiki] = modify_time
 
     def mergerByYear(self):
         '''按年份来归并'''
@@ -73,8 +73,11 @@ class SearchWiki:
         for wiki_info in wikis_info_sorted:
             splited_name = wiki_info[0].rsplit('.', 1)
             name = splited_name[0]
-
-            if(name != WIKI_INDEX and name != 'search' and name != 'todo-list' and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki_index
+            print name
+            if(name != WIKI_INDEX
+               and name != 'search'
+               and name != 'todo-list'
+               #and (name[0] != 'p' and name[1] != '/')  # 以 p/ 打头的不能显示到 wiki_index
                and self.mergered_all.get(name) is None):
                 print >>f, '| [[' + name + ']] |'
 
